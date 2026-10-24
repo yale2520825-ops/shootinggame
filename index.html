@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>클래식 스페이스 슈팅 게임</title>
+    <link rel="stylesheet" href="stlye.css">
+</head>
+<body>
+    <div id="game-container">
+        <div id="ui">
+            <span>SCORE: <span id="score">0</span></span>
+            <span>LIVES: <span id="lives">3</span></span>
+            <span>ROUND: <span id="round">1</span></span>
+            <span>TIME: <span id="timer">00:45</span></span>
+        </div>
+        <div id="game-over">
+            <h2>GAME OVER</h2>
+            <p>점수를 순위에 기록하세요.</p>
+            <form id="score-form">
+                <label for="player-name">이름</label>
+                <input id="player-name" name="player-name" type="text" maxlength="16" autocomplete="nickname" required>
+                <button type="submit">순위 저장</button>
+            </form>
+            <div id="owner-controls" hidden>
+                <button id="reset-leaderboard" type="button">관리자: 순위표 초기화</button>
+            </div>
+            <p id="score-message" aria-live="polite"></p>
+            <section id="leaderboard" aria-labelledby="leaderboard-title">
+                <h3 id="leaderboard-title">TOP 10</h3>
+                <p id="leaderboard-status" aria-live="polite"></p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th scope="col">순위</th>
+                            <th scope="col">이름</th>
+                            <th scope="col">점수</th>
+                            <th scope="col">라운드</th>
+                        </tr>
+                    </thead>
+                    <tbody id="leaderboard-list"></tbody>
+                </table>
+            </section>
+        </div>
+        <canvas id="gameCanvas" width="480" height="600"></canvas>
+    </div>
+    <script src="leaderboard-config.js?v=1"></script>
+    <script src="game.js?v=shared-leaderboard-admin-2"></script>
+</body>
+</html>

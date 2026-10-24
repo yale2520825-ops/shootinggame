@@ -1,0 +1,150 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #0b0b16;
+    color: white;
+    font-family: 'Courier New', Courier, monospace;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+}
+
+#game-container {
+    position: relative;
+}
+
+canvas {
+    border: 4px solid #3f51b5;
+    box-shadow: 0 0 20px #3f51b5;
+    background-color: #000000;
+}
+
+#ui {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    right: 15px;
+    font-size: 17px;
+    font-weight: bold;
+    text-shadow: 0 0 5px #fff;
+    pointer-events: none;
+    display: flex;
+    justify-content: space-between;
+    gap: 6px 12px;
+    flex-wrap: wrap;
+}
+
+#game-over {
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-sizing: border-box;
+    width: min(90%, 380px);
+    max-height: 90%;
+    overflow-y: auto;
+    padding: 22px;
+    text-align: center;
+    background: rgba(8, 12, 30, 0.96);
+    border: 2px solid #3f51b5;
+    border-radius: 12px;
+    box-shadow: 0 0 24px rgba(63, 81, 181, 0.7);
+    pointer-events: auto;
+}
+
+#game-over h2 {
+    font-size: 40px;
+    color: #ff3333;
+    margin: 0;
+    text-shadow: 0 0 10px #ff3333;
+}
+
+#game-over > p {
+    font-size: 16px;
+    color: #aaaaaa;
+}
+
+#score-form {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    gap: 10px;
+    text-align: left;
+}
+
+#player-name {
+    min-width: 0;
+    padding: 8px;
+}
+
+#score-form button {
+    grid-column: 1 / -1;
+    padding: 9px;
+    color: white;
+    font: inherit;
+    font-weight: bold;
+    background: #315fc0;
+    border: 0;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#score-form button:hover {
+    background: #477ce8;
+}
+
+#owner-controls {
+    margin-top: 10px;
+}
+
+#reset-leaderboard {
+    padding: 8px 12px;
+    color: white;
+    font: inherit;
+    background: #9b2938;
+    border: 0;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#reset-leaderboard:hover {
+    background: #c43a4c;
+}
+
+#score-message {
+    min-height: 1em;
+    margin: 10px 0;
+    color: #b8fbff;
+}
+
+#leaderboard h3 {
+    margin: 12px 0 6px;
+    color: #b8fbff;
+}
+
+#leaderboard-status {
+    margin: 0 0 8px;
+    color: #aaaaaa;
+    font-size: 12px;
+}
+
+#leaderboard table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+#leaderboard th,
+#leaderboard td {
+    padding: 5px 3px;
+    border-bottom: 1px solid rgba(184, 251, 255, 0.25);
+    text-align: center;
+    overflow-wrap: anywhere;
+}
+
+#leaderboard th {
+    color: #b8fbff;
+}

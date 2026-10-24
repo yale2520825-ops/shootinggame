@@ -447,14 +447,14 @@ resetLeaderboardButton.addEventListener("click", async () => {
         try {
             const wasReset = await resetSharedLeaderboard();
             if (!wasReset) {
-                scoreMessageEl.textContent = "공유 순위표를 초기화하지 못했습니다. Supabase 설정을 확인하세요.";
+                scoreMessageEl.textContent = "초기화 함수가 완료 응답을 보내지 않았습니다. Supabase 설정을 확인하세요.";
                 return;
             }
 
             scoreMessageEl.textContent = "공유 순위표가 초기화되었습니다.";
             await refreshLeaderboard();
         } catch (error) {
-            scoreMessageEl.textContent = "공유 순위표를 초기화하지 못했습니다. Supabase 관리자 설정을 확인하세요.";
+            scoreMessageEl.textContent = `공유 순위표 초기화 오류: ${error.message}`;
             console.error("Unable to reset shared leaderboard.", error);
         } finally {
             resetLeaderboardButton.disabled = false;

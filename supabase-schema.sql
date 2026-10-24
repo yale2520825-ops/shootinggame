@@ -51,12 +51,11 @@ security definer
 set search_path = ''
 as $$
 begin
-    if not p_confirm then
-        return false;
+    if p_confirm then
+        delete from public.leaderboard where id > 0;
     end if;
 
-    delete from public.leaderboard where true;
-    return true;
+    return p_confirm;
 end;
 $$;
 

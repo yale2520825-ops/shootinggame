@@ -366,7 +366,7 @@ scoreForm.addEventListener("submit", async (event) => {
         scoreSubmitted = true;
         playerNameEl.disabled = true;
         scoreForm.querySelector("button").disabled = true;
-        scoreMessageEl.textContent = "순위가 모든 방문자와 공유되도록 저장되었습니다.";
+        scoreMessageEl.textContent = "";
         if (!(await refreshLeaderboard())) {
             scoreMessageEl.textContent = "점수는 저장됐지만 순위표를 새로 불러오지 못했습니다.";
         }

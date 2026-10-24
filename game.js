@@ -362,7 +362,7 @@ async function resetSharedLeaderboard() {
             apikey: supabaseAnonKey,
             "Content-Type": "application/json"
         },
-        body: JSON.stringify({})
+        body: JSON.stringify({ p_confirm: true })
     });
     if (!response.ok) {
         throw new Error(`HTTP ${response.status}: ${await response.text()}`);

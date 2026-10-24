@@ -44,17 +44,21 @@ drop function if exists public.reset_shared_leaderboard(text);
 drop function if exists public.reset_shared_leaderboard();
 drop table if exists public.leaderboard_admin_password;
 
-create function public.reset_shared_leaderboard()
+create function public.reset_shared_leaderboard(p_confirm boolean default false)
 returns boolean
 language plpgsql
 security definer
 set search_path = ''
 as $$
 begin
-    delete from public.leaderboard;
+    if not p_confirm then
+        return false;
+    end if;
+
+    delete from public.leaderboard where true;
     return true;
 end;
 $$;
 
-revoke all on function public.reset_shared_leaderboard() from public, authenticated;
-grant execute on function public.reset_shared_leaderboard() to anon;
+revoke all on function public.reset_shared_leaderboard(boolean) from public, authenticated;
+grant execute on function public.reset_shared_leaderboard(boolean) to anon;

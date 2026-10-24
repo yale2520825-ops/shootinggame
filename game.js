@@ -355,14 +355,14 @@ async function saveSharedScore(entry) {
     }
 }
 
-async function resetSharedLeaderboard(password) {
+async function resetSharedLeaderboard() {
     const response = await fetch(`${supabaseUrl}/rest/v1/rpc/reset_shared_leaderboard`, {
         method: "POST",
         headers: {
             apikey: supabaseAnonKey,
             "Content-Type": "application/json"
         },
-        body: JSON.stringify({ p_admin_password: password })
+        body: JSON.stringify({})
     });
     if (!response.ok) {
         throw new Error(`HTTP ${response.status}: ${await response.text()}`);
@@ -441,18 +441,13 @@ resetLeaderboardButton.addEventListener("click", async () => {
     if (playerNameEl.value.trim() !== OWNER_NAME) return;
 
     if (isSharedLeaderboardEnabled) {
-        const password = window.prompt("관리자 비밀번호를 입력하세요.");
-        if (password === null) return;
-        if (!password) {
-            scoreMessageEl.textContent = "관리자 비밀번호를 입력해 주세요.";
-            return;
-        }
+        if (!window.confirm("공유 순위표의 모든 기록을 초기화할까요?")) return;
 
         resetLeaderboardButton.disabled = true;
         try {
-            const wasReset = await resetSharedLeaderboard(password);
+            const wasReset = await resetSharedLeaderboard();
             if (!wasReset) {
-                scoreMessageEl.textContent = "관리자 비밀번호가 올바르지 않습니다.";
+                scoreMessageEl.textContent = "공유 순위표를 초기화하지 못했습니다. Supabase 설정을 확인하세요.";
                 return;
             }
 

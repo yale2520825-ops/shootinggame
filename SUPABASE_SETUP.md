@@ -14,20 +14,8 @@ The game uses browser storage until Supabase is configured. Follow these steps t
    };
    ```
 
-5. In the Supabase SQL Editor, set an administrator password of at least 12 characters. Replace the example text with a private password; run this only in the Supabase dashboard and never commit the query with your real password:
+5. Upload `leaderboard-config.js`, `supabase-schema.sql`, `game.js`, `index.html`, `stlye.css`, and the Pages workflow to the GitHub repository. The shared ranking is available after Pages finishes deploying.
 
-   ```sql
-   insert into public.leaderboard_admin_password (id, password_hash)
-   values (
-       true,
-       extensions.crypt('REPLACE_WITH_A_PRIVATE_PASSWORD', extensions.gen_salt('bf', 12))
-   )
-   on conflict (id) do update
-   set password_hash = excluded.password_hash;
-   ```
-
-6. Upload `leaderboard-config.js`, `supabase-schema.sql`, `game.js`, `index.html`, `stlye.css`, and the Pages workflow to the GitHub repository. The shared ranking is available after Pages finishes deploying.
-
-The public key is intended for browser use. Row Level Security allows visitors to read and submit scores but does not allow direct deletion. To clear the shared leaderboard, enter the exact owner name `GIYOMI`, click the reset button, and enter the private administrator password. The password is stored as a bcrypt hash in Supabase and is never placed in the public game files. Never put an admin or `service_role` key in the game.
+The public key is intended for browser use. Row Level Security allows visitors to read and submit scores but does not allow direct deletion. To clear the shared leaderboard, enter the exact owner name `GIYOMI`, click the reset button, and confirm. There is no password: anyone who knows the reset endpoint can clear the shared scores. Re-run `supabase-schema.sql` in the Supabase SQL Editor to apply the password-free reset function; this also removes any stored admin password hash and updates the name limit to 35 characters. Never put an admin or `service_role` key in the game.
 
 If the Supabase URL or public key is empty, scores continue to be stored only in the current browser, and the game labels this clearly.

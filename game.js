@@ -25,6 +25,7 @@ let scoreSubmitted = false;
 const DEFAULT_LIVES = 3;
 const LEADERBOARD_KEY = "spaceShooterLeaderboard";
 const MAX_LEADERBOARD_ENTRIES = 10;
+const MAX_PLAYER_NAME_LENGTH = 35;
 const OWNER_NAME = "GIYOMI";
 const supabaseUrl = typeof leaderboardConfig.supabaseUrl === "string"
     ? leaderboardConfig.supabaseUrl.trim().replace(/\/+$/, "")
@@ -211,6 +212,7 @@ function loseLife() {
     if (lives <= 0) {
         isGameOver = true;
         gameOverEl.style.display = "block";
+        fitLeaderboardNames();
         scoreMessageEl.textContent = "";
         refreshLeaderboard();
         playerNameEl.focus();
@@ -277,6 +279,31 @@ function renderLeaderboard(entries = readLeaderboard()) {
             row.appendChild(cell);
         });
         leaderboardListEl.appendChild(row);
+
+        const nameCell = row.cells[1];
+        nameCell.classList.add("leaderboard-name");
+    });
+    fitLeaderboardNames();
+}
+
+function fitLeaderboardNames() {
+    const measurementContext = document.createElement("canvas").getContext("2d");
+    if (!measurementContext) {
+        throw new Error("Unable to measure leaderboard name text.");
+    }
+
+    leaderboardListEl.querySelectorAll(".leaderboard-name").forEach((cell) => {
+        const availableWidth = cell.clientWidth - 6;
+        if (availableWidth <= 0) return;
+
+        const name = cell.textContent;
+        const fontFamily = getComputedStyle(cell).fontFamily;
+        measurementContext.font = `14px ${fontFamily}`;
+        const textWidth = measurementContext.measureText(name).width;
+        const fontSize = textWidth > availableWidth
+            ? Math.max(4, 14 * availableWidth / textWidth)
+            : 14;
+        cell.style.fontSize = `${fontSize}px`;
     });
 }
 
@@ -353,6 +380,11 @@ scoreForm.addEventListener("submit", async (event) => {
         playerNameEl.focus();
         return;
     }
+    if (Array.from(name).length > MAX_PLAYER_NAME_LENGTH) {
+        scoreMessageEl.textContent = "너무길어요,,";
+        playerNameEl.focus();
+        return;
+    }
 
     if (isSharedLeaderboardEnabled) {
         try {
@@ -396,7 +428,14 @@ scoreForm.addEventListener("submit", async (event) => {
 
 playerNameEl.addEventListener("input", () => {
     ownerControlsEl.hidden = playerNameEl.value.trim() !== OWNER_NAME;
+    if (Array.from(playerNameEl.value.trim()).length > MAX_PLAYER_NAME_LENGTH) {
+        scoreMessageEl.textContent = "너무길어요,,";
+    } else if (scoreMessageEl.textContent === "너무길어요,,") {
+        scoreMessageEl.textContent = "";
+    }
 });
+
+window.addEventListener("resize", fitLeaderboardNames);
 
 resetLeaderboardButton.addEventListener("click", async () => {
     if (playerNameEl.value.trim() !== OWNER_NAME) return;

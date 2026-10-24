@@ -133,8 +133,26 @@ canvas {
 
 #leaderboard table {
     width: 100%;
+    table-layout: fixed;
     border-collapse: collapse;
     font-size: 14px;
+}
+
+#leaderboard th:first-child,
+#leaderboard td:first-child {
+    width: 10%;
+}
+
+#leaderboard th:nth-child(2),
+#leaderboard td:nth-child(2) {
+    width: 56%;
+}
+
+#leaderboard th:nth-child(3),
+#leaderboard td:nth-child(3),
+#leaderboard th:nth-child(4),
+#leaderboard td:nth-child(4) {
+    width: 17%;
 }
 
 #leaderboard th,
@@ -143,6 +161,11 @@ canvas {
     border-bottom: 1px solid rgba(184, 251, 255, 0.25);
     text-align: center;
     overflow-wrap: anywhere;
+}
+
+#leaderboard td.leaderboard-name {
+    overflow: hidden;
+    white-space: nowrap;
 }
 
 #leaderboard th {
